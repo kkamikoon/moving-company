@@ -1,4 +1,5 @@
 from django.urls import path, include
+from django.conf.urls import url, include
 from django.contrib.auth.models import User
 from rest_framework import routers
 
@@ -8,7 +9,8 @@ from rest_framework import routers
 # )
 
 from .views import (
-    MovingCompanyAPI
+    MovingCompanyAPI,
+    MovingCompanyDetailAPI,
 )
 
 # router = routers.DefaultRouter()
@@ -18,10 +20,12 @@ from .views import (
 # router.register(r'customer-information', CustomerInformationViewSet, basename="customer_information")
 # router.register(r'customer-feedbacks', CustomerFeedbackLogViewSet, basename="customer_feedback_log")
 
+
 urlpatterns = [
     # path('admin/', admin.site.urls),
 
-    path('moving-company/', MovingCompanyAPI.as_view())
+    path('moving-company/', MovingCompanyAPI.as_view()),
+    path('moving-company/<int:pk>/', MovingCompanyDetailAPI.as_view())
 
     # path('moving-company/', moving_company),
     # path('moving-company/<int:idx>', moving_company_detail)
