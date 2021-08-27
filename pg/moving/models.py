@@ -25,9 +25,9 @@ class MovingReservation(models.Model):
     idx = models.IntegerField(primary_key = True, null=False, auto_created=True) # PK
     name = models.CharField(null=False, max_length=256) # 이름
     tel = models.CharField(null=False, max_length=15) # 연락처
-    start_address = models.CharField(null=False) # 출발지 주소정보
+    start_address = models.CharField(null=False, max_length=256) # 출발지 주소정보
     start_floor = models.IntegerField(null=False) # 출발지 층수
-    end_address = models.CharField(null=False) # 도착지 주소정보
+    end_address = models.CharField(null=False, max_length=256) # 도착지 주소정보
     end_floor = models.IntegerField(null=False) # 도착지 층수
     moving_date = models.DateTimeField(null=False) # 이사 일자
     is_storage = models.BooleanField(null=False, default=False) # 보관이사여부
@@ -64,8 +64,8 @@ class CustomerInformation(models.Model):
 class CustomerFeedbackLog(models.Model):
     # 고객정보, 업체정보, 이사종류(가정이사, 원룸이사), 정보공개동의여부, 전문성 만족도(매우만족, 만족, 보통, 불만족, 매우불만족), 가격 만족도(매우만족, 만족, 보통, 불만족, 매우불만족), 친절 만족도(매우만족, 만족, 보통, 불만족, 매우불만족), 재방문의사, 계약가격, 이사일, 피드백 작성일, 피드백 내용
     idx = models.IntegerField(primary_key = True, null=False, auto_created=True) # PK
-    customer = models.ForeignKey(CustomerInformation, on_delete=models.SET_NULL) # 고객정보
-    company = models.ForeignKey(MovingCompany, on_delete=models.SET_NULL) # 업체정보
+    customer = models.ForeignKey(CustomerInformation, on_delete=models.SET_NULL, null=True) # 고객정보
+    company = models.ForeignKey(MovingCompany, on_delete=models.SET_NULL, null=True) # 업체정보
     move_type = models.IntegerField(null=False) # 가정이사 : 0, 원룸이사 : 1
     agreement_open_information = models.BooleanField(null=False) # 정보공개동의여부
     satisfied_pro = models.IntegerField(null=False) # 전문성 만족도 - 매우불만족 : 1, 불만족 : 2, 보통 : 3, 만족 : 4, 매우만족 : 5
