@@ -47,18 +47,18 @@ class MovingCompanyAPI(APIView):
 class MovingCompanyDetailAPI(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
-    def get_object(self, request, pk):
+    def get_object(self, pk):
         try:
             return MovingCompany.objects.get(pk=pk)
         except MovingCompany.DoesNotExist:
             raise Http404
 
-    def get(self, request, idx, format=None):
+    def get(self, request, pk, format=None):
         moving_company = self.get_object(pk)
         serializer = MovingCompanySerializer(moving_company)
         return Response(serializer.data)
 
-    def put(self, requeest, pk, format=None):
+    def put(self, request, pk, format=None):
         moving_company = self.get_object(pk)
         serializer = MovingCompanySerializer(moving_company, data=request.data)
 

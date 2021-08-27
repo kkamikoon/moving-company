@@ -11,7 +11,7 @@ class MovingCompanySerializer(serializers.ModelSerializer):
     class Meta:
         model = MovingCompany # Model 설정
         fields = (
-            'idx',
+            'id',
             'name',
             'ceo',
             'tel',
@@ -27,7 +27,7 @@ class MovingReservationSerializer(serializers.ModelSerializer):
     class Meta:
         model = MovingReservation
         fields = (
-            'idx',
+            'id',
             'name',
             'tel',
             'start_address',
@@ -45,7 +45,7 @@ class CustomerInformationSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerInformation
         fields = (
-            'idx',
+            'id',
             'name',
             'tel',
             'reg_date',
@@ -58,7 +58,7 @@ class CustomerFeedbackLogSerializer(serializers.ModelSerializer):
     class Meta:
         model = CustomerFeedbackLog
         fields = (
-            'idx',
+            'id',
             'customer',
             'company',
             'move_type',

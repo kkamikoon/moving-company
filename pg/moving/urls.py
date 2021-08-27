@@ -27,9 +27,6 @@ urlpatterns = [
     path('moving-company/', MovingCompanyAPI.as_view()),
     path('moving-company/<int:pk>/', MovingCompanyDetailAPI.as_view())
 
-    # path('moving-company/', moving_company),
-    # path('moving-company/<int:idx>', moving_company_detail)
-
     # url(r'^', include(router.urls)),
     # url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework'))
 ]
