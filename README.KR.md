@@ -15,7 +15,7 @@
 
 ### apt install
 ```bash
-$ apt install libmysqlclient-dev
+$ apt install -y libmysqlclient-dev docker docker-compose
 ```
 
 ### pip install
@@ -91,3 +91,40 @@ Vary: Accept
     "reservation_status": true
 }
 ```
+
+# Docker
+## Quick Start
+### docker-compose.yml 수정하기
+원하는 포트 번호로 변경하여 접근할 수 있도록 한다.
+```docker
+version: "3.3"
+
+services:
+    web:
+        build: .
+        volumes:
+            - .:/pg
+        command: python manage.py runserver 0.0.0.0:8000
+        ports:
+            - "80:8000" # port 80(outside) -> 8000(inside of docker)
+```
+
+```bash
+# pg 디렉토리로 들어간다.
+$ cd pg/
+
+# ~pg/ 디렉토리에서 docker-compose 명령 실행
+$ docker-compose up -d
+```
+
+### docker로 접속
+연결한 정보를 통해 도커로 접속한다.
+
+예시 > http://???/admin/
+```
+예제 Django Administration 정보
+
+ID : root
+PW : toor
+```
+

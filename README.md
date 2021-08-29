@@ -15,7 +15,7 @@
 
 ### apt install
 ```bash
-$ apt install libmysqlclient-dev
+$ apt install -y libmysqlclient-dev docker docker-compose
 ```
 
 ### pip install
@@ -90,4 +90,40 @@ Vary: Accept
     "address": "서울 동작구 신대방동",
     "reservation_status": true
 }
+```
+
+# Docker
+## Quick Start
+### Edit docker-compose.yml
+You can edit your port number on `docker-compose.yml` file.
+```docker
+version: "3.3"
+
+services:
+    web:
+        build: .
+        volumes:
+            - .:/pg
+        command: python manage.py runserver 0.0.0.0:8000
+        ports:
+            - "80:8000" # port 80(outside) -> 8000(inside of docker)
+```
+
+```bash
+# access to `pg`
+$ cd pg/
+
+# docker-compose command activate on `~pg/`
+$ docker-compose up -d
+```
+
+### Access to Docker
+You can access to your docker using your access information.
+
+example > http://???/admin/
+```
+Example of Django Administration Information
+
+ID : root
+PW : toor
 ```
