@@ -8,6 +8,6 @@ from .models import (
 
 # Register your models here.
 admin.site.register(MovingCompany)
-# admin.site.register(MovingReservation)
-# admin.site.register(CustomerInformation)
-# admin.site.register(CustomerFeedbackLog)
+admin.site.register(MovingReservation)
+admin.site.register(CustomerInformation)
+admin.site.register(CustomerFeedbackLog)

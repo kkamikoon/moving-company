@@ -29,20 +29,29 @@ class MovingCompanyAPI(APIView):
 
     def get(self, request):
         queryset = MovingCompany.objects.all()
+
+        for q in queryset:
+            q.tel = self.tel_masking(q.tel) # Tel Masking
+            q.address = self.address_filtering(q.address) # Address filtering
+
         serializer = MovingCompanySerializer(queryset, many=True)
 
-        return Response(serializer.data)
+        res = { "total_data_count"  : len(queryset),
+                "result"            : serializer.data }
 
-    def post(self, request):
-        data = request.data
-        serializer = MovingCompanySerializer(data)
+        return Response(res)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+    def tel_masking(self, tel):
+        s_tel = tel.split("-")
+        s_tel[-1] = s_tel[-1][0] + '*'*2 + s_tel[-1][-1]
+
+        return "-".join(s_tel)
+
+    def address_filtering(self, addr):
+        s_addr = addr.split(" ")
+
+        return " ".join(s_addr[:3])
         
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
-
 
 class MovingCompanyDetailAPI(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
@@ -55,87 +64,181 @@ class MovingCompanyDetailAPI(APIView):
 
     def get(self, request, pk, format=None):
         moving_company = self.get_object(pk)
+        moving_company.tel = self.tel_masking(moving_company.tel) # Tel masking
+        moving_company.address = self.address_filtering(moving_company.address) # Address Filtering
+
         serializer = MovingCompanySerializer(moving_company)
+
         return Response(serializer.data)
+        
+    def tel_masking(self, tel):
+        s_tel = tel.split("-")
+        s_tel[-1] = s_tel[-1][0] + '*'*2 + s_tel[-1][-1]
 
-    def put(self, request, pk, format=None):
-        moving_company = self.get_object(pk)
-        serializer = MovingCompanySerializer(moving_company, data=request.data)
+        return "-".join(s_tel)
 
-        if serializer.is_valid():
-            serializer.save()
-            return Response(serializer.data)
-        return Response(serializer.errors, status=status.HTTP_400_BAD_REQUEST)
+    def address_filtering(self, addr):
+        s_addr = addr.split(" ")
+
+        return " ".join(s_addr[:3])
 
 
 class MovingReservationAPI(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request):
-        queryset = MovingReservation.object.all()
+        queryset = MovingReservation.objects.all()
+
+        for q in queryset:
+            q.tel = self.tel_masking(q.tel) # Tel Masking
+            q.start_address = self.address_filtering(q.start_address) # Start Address filtering
+            q.end_address   = self.address_filtering(q.end_address)   # End Address filtering
+            q.moving_date   = self.date_format(q.moving_date)         # Moving date formatting
+
         serializer = MovingReservationSerializer(queryset, many=True)
 
+        res = { "total_data_count"  : len(queryset),
+                "result"            : serializer.data }
+
+        return Response(res)
+
+    def tel_masking(self, tel):
+        s_tel = tel.split("-")
+        s_tel[-1] = s_tel[-1][0] + '*'*2 + s_tel[-1][-1]
+
+        return "-".join(s_tel)
+
+    def address_filtering(self, addr):
+        s_addr = addr.split(" ")
+
+        return " ".join(s_addr[:3])
+    
+    def date_format(self, date):
+        return date.strftime("%Y-%m-%d")
+
+
+class MovingReservationDetailAPI(APIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_object(self, pk):
+        try:
+            return MovingReservation.objects.get(pk=pk)
+        except MovingReservation.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        moving_reservation = self.get_object(pk)
+        moving_reservation.tel = self.tel_masking(moving_reservation.tel) # Tel masking
+        moving_reservation.start_address = self.address_filtering(moving_reservation.start_address) # Start Address
+        moving_reservation.end_address = self.address_filtering(moving_reservation.end_address) # End Address 
+        moving_reservation.moving_date = self.date_format(moving_reservation.moving_date) # Moving Date
+        serializer = MovingReservationSerializer(moving_reservation)
+
         return Response(serializer.data)
+        
+    def tel_masking(self, tel):
+        s_tel = tel.split("-")
+        s_tel[-1] = s_tel[-1][0] + '*'*2 + s_tel[-1][-1]
+
+        return "-".join(s_tel)
+
+    def address_filtering(self, addr):
+        s_addr = addr.split(" ")
+
+        return " ".join(s_addr[:3])
+
+    def date_format(self, date):
+        return date.strftime("%Y-%m-%d")
+
+
 
 class CustomerInformationAPI(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request):
-        queryset = CustomerInformation.object.all()
+        queryset = CustomerInformation.objects.all()
+
+        for q in queryset:
+            q.tel = self.tel_masking(q.tel) # Tel Masking
+
         serializer = CustomerInformationSerializer(queryset, many=True)
 
+        res = { "total_data_count"  : len(queryset),
+                "result"            : serializer.data }
+
+        return Response(res)
+
+    def tel_masking(self, tel):
+        s_tel = tel.split("-")
+        s_tel[-1] = s_tel[-1][0] + '*'*2 + s_tel[-1][-1]
+
+        return "-".join(s_tel)
+
+
+class CustomerInformationDetailAPI(APIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_object(self, pk):
+        try:
+            return CustomerInformation.objects.get(pk=pk)
+        except CustomerInformation.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        customer_info = self.get_object(pk)
+        serializer = CustomerInformationSerializer(customer_info)
+
+        customer_info.tel = self.tel_masking(customer_info.tel)
+
         return Response(serializer.data)
+        
+    def tel_masking(self, tel):
+        s_tel = tel.split("-")
+        s_tel[-1] = s_tel[-1][0] + '*'*2 + s_tel[-1][-1]
+
+        return "-".join(s_tel)
+
 
 class CustomerFeedbackLogAPI(APIView):
     permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
 
     def get(self, request):
-        queryset = CustomerFeedbackLog.object.all()
+        queryset = CustomerFeedbackLog.objects.all()
         serializer = CustomerFeedbackLogSerializer(queryset, many=True)
 
+        for q in queryset:
+            q.moving_date = self.date_format(q.moving_date)
+            q.feedback_date = self.date_format(q.feedback_date)
+
+        res = { "total_data_count"  : len(queryset),
+                "result"            : serializer.data }
+
+        return Response(res)
+    
+    def date_format(self, date):
+        return date.strftime("%Y-%m-%d")
+
+
+class CustomerFeedbackLogDetailAPI(APIView):
+    permission_classes = (permissions.IsAuthenticatedOrReadOnly,)
+
+    def get_object(self, pk):
+        try:
+            return CustomerFeedbackLog.objects.get(pk=pk)
+        except CustomerFeedbackLog.DoesNotExist:
+            raise Http404
+
+    def get(self, request, pk, format=None):
+        customer_info = self.get_object(pk)
+
+        serializer = CustomerFeedbackLogSerializer(customer_info)
+
+        customer_info.moving_date = self.date_format(customer_info.moving_date)
+        customer_info.feedback_date = self.date_format(customer_info.feedback_date)
+
         return Response(serializer.data)
-
-
-
-
-'''
-# Create your views here.
-@csrf_exempt
-def moving_company(request):
-    # List of moving companies
-    if request.method == 'GET':
-        query_set = MovingCompany.objects.all()
-        serializer = MovingCompanySerializer(query_set, many=True)
-        return JsonResponse(serializer.data, safe=False)
-
-    elif request.method == 'POST':
-        data = JSONParser().parse(request)
-        serializer = MovingCompanySerializer(data=data)
         
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
+    def date_format(self, date):
+        return date.strftime("%Y-%m-%d")
 
-@csrf_exempt
-def moving_company_detail(request, idx):
-    # Detail of single moving company
-    obj = MovingCompany.objects.get(pk=idx)
 
-    if request.method == 'GET':
-        serializer = MovingCompanySerializer(obj)
-        return JsonResponse(serializer.data, safe=False)
-
-    elif request.method == 'PUT':
-        data = JSONParser().parse(request)
-        serializer = MovingCompanySerializer(obj, data=data)
-
-        if serializer.is_valid():
-            serializer.save()
-            return JsonResponse(serializer.data, status=201)
-        return JsonResponse(serializer.errors, status=400)
-
-    elif request.method == "DELETE":
-        obj.delete()
-        return HttpResponse(status=204)
-'''

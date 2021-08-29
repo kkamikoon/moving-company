@@ -13,9 +13,6 @@ class MovingCompany(models.Model):
     number_of_vehicles = models.IntegerField(null=False) # 차량 수(1톤, 2.5톤, 5톤)
     reservation_status = models.BooleanField(default=False) # 매칭가능여부
 
-    # def __str__(self):
-    #     return f"Name : {self.name}, CEO : {self.ceo}, TEL : {self.tel}, Address : {self.address}, BusinessNumber : {self.business_number}, BusinessRegDate : {self.business_reg_date}, NumOfEmployees : {self.number_of_employees}, NumOfVehicles : {self.number_of_vehicles}, ReservationStatus : {self.reservation_status}"
-
     class Meta:
         db_table = "moving_company"
 
@@ -35,9 +32,6 @@ class MovingReservation(models.Model):
     agreement_sharing_collected_information = models.BooleanField(null=False) # 견젹요청을 위한 개인정보 제3자 제공동의여부
     agreement_marketing = models.BooleanField(null=False) # 마케팅 정보수신 동의 여부
 
-    # def __str__(self):
-    #     return f"Name : {name}, TEL : {tel}, StartAddress : {start_address}, StartFloor : {start_floor}, EndAddress : {end_address}, EndFloor : {end_floor}, MovingDate : {moving_date}, IsStorage : {is_storage}, AgreeInfoCollection : {agreement_information_collection}, AgreeSharingCollectedInfo : {agreement_sharing_collected_information}, AgreeMarketing : {agreement_marketing}"
-
     class Meta:
         db_table = "moving_reservation"
 
@@ -52,9 +46,6 @@ class CustomerInformation(models.Model):
     agreement_information_collection = models.BooleanField(null=False) # 이용약관동의여부
     agreement_sharing_collected_information = models.BooleanField(null=False) # 견젹요청을 위한 개인정보 제3자 제공동의여부
     agreement_marketing = models.BooleanField(null=False) # 마케팅 정보수신 동의 여부
-
-    # def __str__(self):
-    #     return f"Name : {name}, TEL : {tel}, RegDate : {reg_date}, AgreeInfoCollection : {agreement_information_collection}, AgreeSharingCollectedInfo : {agreement_sharing_collected_information}, AgreeMarketing : {agreement_marketing}"
 
     class Meta:
         db_table = "customer_information"
@@ -76,9 +67,6 @@ class CustomerFeedbackLog(models.Model):
     moving_date = models.DateTimeField(null=False) # 이사일
     feedback_date = models.DateTimeField(null=False, auto_now_add=True) # 피드백 작성일
     feedback_text = models.TextField(null=False) # 피드백 내용
-
-    # def __str__(self):
-    #     return f"Customer : {customer}, Company : {company}, MoveType : {move_type}, AgreeOpen : {agreement_open_information}, SatisfiedPro : {satisfied_pro}, SatisfiedPrice : {satisfied_price}, SatisfiedKindness : {satisfied_kindness}, Revisit : {revisit}, Payment : {payment}, MovingDate : {moving_date}, FeedbackDate : {feedback_date}, FeedbackText : {feedback_text}"
 
     class Meta:
         db_table = "customer_feedback_log"
