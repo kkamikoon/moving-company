@@ -1,6 +1,6 @@
-# API Usage
+# API 사용방법
 
-## URL list
+## URL 목록
 * ~/admin/
 * api/moving-company/
 * api/moving-company/\<int:pk>/
@@ -11,7 +11,7 @@
 * api/customer-feedback/
 * api/customer-feedback/\<int:pk>
 
-## Libraries
+## 라이브러리
 
 ### apt install
 ```bash
@@ -23,7 +23,7 @@ $ apt install libmysqlclient-dev
 $ pip3 install django djangorestframework mysqlclient
 ```
 
-# Activate
+# 실행방법
 ```bash
 python3 manage.py runserver x.x.x.x:yy
 
@@ -31,7 +31,7 @@ python3 manage.py runserver x.x.x.x:yy
 # PORT : yy
 ```
 
-## Admin Create
+## Admin 계정 생성
 ```bash
 $ python3 manage.py createsuperuser
 
@@ -39,14 +39,14 @@ $ python3 manage.py createsuperuser
 # Test Account : root / toor
 ```
 
-## Admin page
-* Access to `~/admin/` and log in using your account just you made.
-* You can `add your data` on this page
+## Admin 페이지
+* `~/admin/` 경로로 들어가서, 방금 생성한 계정을 통해 어드민 로그인을 한다.
+* 해당 페이지에서 `데이터를 추가`할 수 있다.
 
 ## REST framework
 ### \<your-ip-or-domain>/api/\<api-path>/
 
-* This API return all moving company list.
+* 모든 이사회사들의 리스트를 반환해주는 API의 예시
 * example > `http://???/api/moving-company/`
 
 
@@ -76,7 +76,7 @@ Vary: Accept
 ```
 
 ### \<your-ip-or-domain>/api/\<api-path>/\<int:pk>
-* This API return specific moving company information.
+* 특정 이사회사의 정보를 반환해주는 API의 예시
 * example > `http://???/api/moving-company/1/`
 ```
 HTTP 200 OK
